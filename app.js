@@ -34,6 +34,10 @@ const userController = require('./controllers/user');
 const apiController = require('./controllers/api');
 const contactController = require('./controllers/contact');
 
+// My controllers
+
+const trController = require('./controllers/tr'); // Transaction Controller
+
 /**
  * API keys and Passport configuration.
  */
@@ -144,6 +148,36 @@ app.post('/account/profile', passportConfig.isAuthenticated, userController.post
 app.post('/account/password', passportConfig.isAuthenticated, userController.postUpdatePassword);
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
+
+
+// TRANSACTION ROUTES //
+
+// GET 871m catalog home page.
+app.get('/catalog', trController.index);
+
+// GET request for creating a Book. NOTE This must come before routes that display Book (uses id).
+app.get('/tr/create', trController.trCreateGet);
+
+// POST request for creating Book.
+app.post('/tr/create', trController.trCreatePost);
+
+// GET request to delete Book.
+app.get('/tr/:id/delete', trController.trDeleteGet);
+
+// POST request to delete Book.
+app.post('/tr/:id/delete', trController.trDeletePost);
+
+// GET request to update Book.
+app.get('/tr/:id/update', trController.trUpdateGet);
+
+// POST request to update Book.
+app.post('/tr/:id/update', trController.trUpdatePost);
+
+// GET request for one Book.
+app.get('/tr/:id', trController.trDetail);
+
+// GET request for list of all Book items.
+app.get('/tr', trController.trList);
 
 /**
  * API examples routes.
